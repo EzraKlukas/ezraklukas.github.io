@@ -33,9 +33,9 @@ resume-url: /assets/resume/resume.pdf
 # Set up external links - this will show up as small icons next to your name.
 
 external-links:    # input only your own url slug. The icons with missing entries will not appear.
-  linkedin: https://www.linkedin.com/in/ezra-klukas-23abb826b/ # https://www.linkedin.com/in/{your url slug} 
-  github: https://github.com/EzraKlukas # https://github.com/{your url slug} 
-  discord: https://discord.com/users/ezraklukas 
+  linkedin: ezra-klukas-23abb826b/ # https://www.linkedin.com/in/{your url slug} 
+  github: EzraKlukas # https://github.com/{your url slug} 
+  discord: ezraklukas 
   gmail: ezraklukas@gmail.com 
 
 # Skills Section - Add the list of your Skills by categories/tools. The indentation for each level needs to be precise. 
