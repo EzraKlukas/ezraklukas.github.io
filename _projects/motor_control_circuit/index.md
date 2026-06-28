@@ -13,7 +13,8 @@ main-image: /main.jpg
 ---
 
 ---
-# Circuit design
+
+# Circuit Design
 At a higher level, the aim of the circuit is to convert the angular speed of a DC motor into a proportional analog voltage, against which a feedback loop corrects about an adjustable pre-set voltage, regulating the current flow through the DC motor.
 
 But how can we translate the speed of a motor into an easily tunable parameter? One might be tempted to look at a datasheet for the motor, where a relationship between speed and current might reveal an easy path to deriving speed from a set-point voltage. However, we need to control speed independent of the torque of the motor, or manufacturing variance across different motors. 
@@ -26,11 +27,11 @@ We now split the design into sub-ideas:
 
 For the first problem, we'll use custom digital logic IC's ([74HCT393](https://www.ti.com/lit/ds/symlink/cd74hc393.pdf?ts=1782361521935&ref_url=https%253A%252F%252Fwww.google.com%252F)) to count clock cycles and latch the values with a D octal flip-flop ([74HCT273](https://www.ti.com/lit/ds/symlink/cd74hc273.pdf)) once a timing interval ends. To control the interval timing, we cheat by using a waveform generated 5 Hz square wave. While we could have designed such a generator using a 555 timer, this course emphasized learning to use oscilloscopes, waveform generators, logic and frequency spectrum analyzers and other tools as well as practical circuit design fundamentals. For example, we monitored the output of the latch with configured logic analyzers to read decimal values out of the array of high or low signals, which gave great transparency for easy debugging (see figure 18 from the report, below). Using IC's also encouraged us to learn the ins and outs of reading and using datasheets to inform design decisions and aid in debugging. We also learned the digital logic underlying flip-flops and designed and prototyped a simple example by breadboard.
 
-![Logic Analyzer and DAC output](/home/ezraklukas/Documents/University/Coop/2026/ezraklukas.github.io/assets/images/logic_analyzer.png)
+![Logic Analyzer and DAC output](/logic_analyzer.png)
 
-For the second problem, the digitally stored latch output represents a binary number whose decimal is the number of counts occurring in the past interval. This is where a DAC (Digital to Analog Converter) is needed. Several methods exist, but we used a resistive ladder network; 
+For the second problem, the digitally stored latch output represents a binary number whose decimal is the number of counts occurring in the past interval. This is where a DAC (Digital to Analog Converter) is needed. Several methods exist, but we used a resistive ladder network; an ingeniusly designed recursive DAC; using techniques learned in ELEC 204, another course from this term, we were able to derive the behaviour of the circuit, in which each outputted bit contributes double the voltage of the last one, with output resolution $\frac{1}{2^n} V_{ref}$.
 
-![Circuit Schematic](/home/ezraklukas/Documents/University/Coop/2026/ezraklukas.github.io/assets/images/general_overview.png)
+![Circuit Schematic](/general_overview.png)
 
 Figure 1 gives the full signal path of the circuit, from the incoming square wave through the delay and reset logic, then into the counter, latch, and final analog output stage. At a high level, the circuit turns the timing of an input square wave into a controlled digital count, then converts that count into an analog voltage used by the feedback loop.
 
@@ -41,43 +42,34 @@ The delay is introduced by the RC network between the first inverter stage and U
 [
 \tau = RC
 ]
-
 and by the switching threshold of the inverter. For a rising capacitor voltage, the delay is found from the charging relation,
-
 [
 V_C(t) = V_{DD}(1 - e^{-t/RC})
 ]
-
 while for a falling capacitor voltage, it is found from the discharge relation,
-
 [
 V_C(t) = V_0 e^{-t/RC}.
 ]
-
 This is the main timing mechanism in the circuit: the logic transition is intentionally shifted by the finite charging time of the capacitor.
 
 The reset pulse is generated in a similar way, but with the RC network configured to produce a short transient rather than a sustained delay. When the delayed logic signal changes state, the capacitor momentarily drives the input of the following inverter across its threshold. As the capacitor then charges or discharges back toward its steady-state value, the input quickly returns below the threshold, ending the reset pulse. In other words, the reset stage converts an edge of the delayed square wave into a narrow pulse whose width is again determined mainly by an RC time constant and the inverter threshold.
 
 Together, these blocks let the circuit count rotations only during well-defined timing windows. The delayed signal controls when the latch captures the current counter value, while the reset pulse clears the counter for the next interval. The latched digital value is then passed to the resistor-ladder DAC, producing an analog voltage proportional to the measured count. This analog voltage is compared against the setpoint in the final amplifier stage, closing the loop shown in the bottom-right of Figure 1.
 
-## Resistive Ladder Network
-Talk about how it works more intuitively, feel free to go into the math of things we could tune...
-
 # Assembly, Debugging, Lessons learned
 Assembly was done by section, and each circuit was tested and trouble-shooted in its isolation before connecting sub-circuits together. Systematic assembly and testing in this way is extremely important; building in layers of complexity lets you rule out more rudimentary issues, and put more confidence in troubleshooting integration related issues. As well, intimate troubleshooting and debugging forces you to understand the sub-circuits very well, which is critical for each layer of complexity added.
 
-Planar cut-to-length wiring, minimizing total wire length, and mimicking the logical sequence of the circuit in the breadboard layout were principles I applied to ease troubleshooting and have it easier for others to follow along circuit from the breadboard. This extrapolated to first 
+Planar cut-to-length wiring, minimizing total wire length, and mimicking the logical sequence of the circuit in the breadboard layout were principles I applied to ease troubleshooting and have it easier for others to follow along circuit from the breadboard. For each feature I added on the breadboard, I hand-drew a circuit sub-diagram, including references to datasheet pinouts, and I took a photo and labelled that photo with reference to the chip datasheets and the circuit schematic, so that I could systematically confirm wiring.
 
-Talk about some of the skills I learned - logic analyzer, intuition behind planning how I layed out my breadboard to make troubleshooting easier, difficulties I encountered / would do differently next time, and so on.
-Maybe show some samples of how I went about troubleshooting, or not, maybe that can be something I just point to the report in, but I can talk meta about it none-the-less, and how that was one of the main pros of the course.
+![Error Amplification Sub-circuit Hand-drawn Diagram](/error_amp_circ_diag.jpeg)
+
+![Error Amplification Labelled Breadboard Photo](/error_amp_labelled.jpeg)
 
 # Lessons Learned
-Double check power calculations when running power electronics.
+- Documentation is just as critical as critical thinking in problem solving, and long-term project success.
+- Double check power calculations when running power electronics.
+- Spending an extra 30 minutes setting up a systematic debugging protocol / setup almost always outperforms guess and check troubleshooting.
+- You understand something well once you can explain it to someone else from the bottom up.
 
-### Embed images - use, for example to show the schematic...
-{% include image-gallery.html images="project2.jpg" height="400" %} 
-place the images in project folder/images then update the file path.   
-
-
-## Final report hand-in
-[Wikipedia](https://en.wikipedia.org)
+## Final Report
+For full details and insight into live troubleshooting and skills learned, see the [final report](/final_report.pdf) I wrote!

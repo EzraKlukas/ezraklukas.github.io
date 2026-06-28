@@ -10,5 +10,5 @@ skills:
   - ESP32 microcontroller
   - Datasheet traversal for IC use in circuit design
 
-main-image: /sonos.png
+main-image: /robot_w_shreya.webp
 ---
