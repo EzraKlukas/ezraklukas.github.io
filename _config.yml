@@ -7,6 +7,10 @@
 
 # Main Page Setup
 
+repository: EzraKlukas/ezraklukas.github.io
+url: "https://ezraklukas.github.io"
+baseurl: ""
+
 title: Ezra Klukas Portfolio # This is what shows up in the tab of the browser
 
 
