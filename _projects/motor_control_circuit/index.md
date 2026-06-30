@@ -9,7 +9,7 @@ skills:
   - Logic analyzer
   - Linear Circuit analysis
 
-main-image: /main.jpg
+main-image: main.jpg
 ---
 
 ---
@@ -27,18 +27,17 @@ We now split the design into sub-ideas:
 
 For the first problem, we'll use custom digital logic IC's ([74HCT393](https://www.ti.com/lit/ds/symlink/cd74hc393.pdf?ts=1782361521935&ref_url=https%253A%252F%252Fwww.google.com%252F)) to count clock cycles and latch the values with a D octal flip-flop ([74HCT273](https://www.ti.com/lit/ds/symlink/cd74hc273.pdf)) once a timing interval ends. To control the interval timing, we cheat by using a waveform generated 5 Hz square wave. While we could have designed such a generator using a 555 timer, this course emphasized learning to use oscilloscopes, waveform generators, logic and frequency spectrum analyzers and other tools as well as practical circuit design fundamentals. For example, we monitored the output of the latch with configured logic analyzers to read decimal values out of the array of high or low signals, which gave great transparency for easy debugging (see figure 18 from the report, below). Using IC's also encouraged us to learn the ins and outs of reading and using datasheets to inform design decisions and aid in debugging. We also learned the digital logic underlying flip-flops and designed and prototyped a simple example by breadboard.
 
-![Logic Analyzer and DAC output](/logic_analyzer.png)
+![Logic Analyzer and DAC output]({{ page.url | remove: 'index/' | append: 'logic_analyzer.png' | relative_url }})
 
 For the second problem, the digitally stored latch output represents a binary number whose decimal is the number of counts occurring in the past interval. This is where a DAC (Digital to Analog Converter) is needed. Several methods exist, but we used a resistive ladder network; an ingeniusly designed recursive DAC; using techniques learned in ELEC 204, another course from this term, we were able to derive the behaviour of the circuit, in which each outputted bit contributes double the voltage of the last one, with output resolution $\frac{1}{2^n} V_{ref}$.
 
-![Circuit Schematic](/general_overview.png)
+![Circuit Schematic]({{ page.url | remove: 'index/' | append: 'general_overview.png' | relative_url }})
 
 Figure 1 gives the full signal path of the circuit, from the incoming square wave through the delay and reset logic, then into the counter, latch, and final analog output stage. At a high level, the circuit turns the timing of an input square wave into a controlled digital count, then converts that count into an analog voltage used by the feedback loop.
 
 One subtlety that needs to be considered is propagation delay. When an interval ends, we need to latch the current input to the output of the D flip-flop. But the counter also needs to be reset to zero, so if both things happen at the same time by design, we might end up unintentionally latching zero to the output of the flip-flop! To ensure this doesn't happen, we need a delay. 
 
 The delay is introduced by the RC network between the first inverter stage and U1B. The input square wave is first cleaned up by the inverter chain, then passed into an RC charging path before reaching the next logic threshold. Since the capacitor voltage cannot change instantaneously, the input to U1B does not switch at exactly the same time as the original square wave. Instead, it crosses the inverter threshold only after the capacitor has charged or discharged far enough. Symbolically, this delay is set by the RC time constant,
-
 [
 \tau = RC
 ]
@@ -56,14 +55,17 @@ The reset pulse is generated in a similar way, but with the RC network configure
 
 Together, these blocks let the circuit count rotations only during well-defined timing windows. The delayed signal controls when the latch captures the current counter value, while the reset pulse clears the counter for the next interval. The latched digital value is then passed to the resistor-ladder DAC, producing an analog voltage proportional to the measured count. This analog voltage is compared against the setpoint in the final amplifier stage, closing the loop shown in the bottom-right of Figure 1.
 
+# Understanding the control loop
+
+
 # Assembly, Debugging, Lessons learned
 Assembly was done by section, and each circuit was tested and trouble-shooted in its isolation before connecting sub-circuits together. Systematic assembly and testing in this way is extremely important; building in layers of complexity lets you rule out more rudimentary issues, and put more confidence in troubleshooting integration related issues. As well, intimate troubleshooting and debugging forces you to understand the sub-circuits very well, which is critical for each layer of complexity added.
 
 Planar cut-to-length wiring, minimizing total wire length, and mimicking the logical sequence of the circuit in the breadboard layout were principles I applied to ease troubleshooting and have it easier for others to follow along circuit from the breadboard. For each feature I added on the breadboard, I hand-drew a circuit sub-diagram, including references to datasheet pinouts, and I took a photo and labelled that photo with reference to the chip datasheets and the circuit schematic, so that I could systematically confirm wiring.
 
-![Error Amplification Sub-circuit Hand-drawn Diagram](/error_amp_circ_diag.jpeg)
+![Error Amplification Sub-circuit Hand-drawn Diagram]({{ page.url | remove: 'index/' | append: 'error_amp_circ_diag.jpeg' | relative_url }})
 
-![Error Amplification Labelled Breadboard Photo](/error_amp_labelled.jpeg)
+![Error Amplification Labelled Breadboard Photo]({{ page.url | remove: 'index/' | append: 'error_amp_labelled.jpeg' | relative_url }})
 
 # Lessons Learned
 - Documentation is just as critical as critical thinking in problem solving, and long-term project success.
@@ -72,4 +74,4 @@ Planar cut-to-length wiring, minimizing total wire length, and mimicking the log
 - You understand something well once you can explain it to someone else from the bottom up.
 
 ## Final Report
-For full details and insight into live troubleshooting and skills learned, see the [final report](/final_report.pdf) I wrote!
+For full details and insight into live troubleshooting and skills learned, see the [final report]({{ page.url | remove: 'index/' | append: 'final_report.pdf' | relative_url }}) I wrote!

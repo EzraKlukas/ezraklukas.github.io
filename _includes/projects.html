@@ -6,8 +6,9 @@
         {% for item in site.projects %}
     <a href="{{ item.url }}" class="project-link">
         <div class="project-card">
-            {% assign folder_path = item.path | split: "/" | slice: 0, 2 | join: "/" %}
-            {% assign image_path = "/" | append: folder_path | append: item['main-image'] %}
+            {% assign image_base_path = item.url | remove: 'index/' %}
+            {% assign image_name = item['main-image'] | remove_first: '/' %}
+            {% assign image_path = image_base_path | append: image_name | relative_url %}
             <img src="{{ image_path }}" alt="{{ item.title }} image">
             <h3 class="project-title">{{ item.title }}</h3>
             <div class="project-skills">
