@@ -118,16 +118,7 @@ $$
 Since essentially no current enters the op-amp input, this same current has to pass through the feedback network. The resistor in the feedback path gives an immediate proportional response, while the capacitor gives an accumulated integral response. In time-domain form, the output is approximately
 
 $$
-V_\text{ctrl}(t)
-=
-V_\text{set}
--
-\frac{R_7}{R_6}
-\left(V_\text{meas}(t)-V_\text{set}\right)
--
-\frac{1}{R_6C_1}
-\int
-\left(V_\text{meas}(t)-V_\text{set}\right)dt.
+V_\text{ctrl}(t) = V_\text{set} - \frac{R_7}{R_6} \left(V_\text{meas}(t)-V_\text{set}\right) - \frac{1}{R_6C_1} \int \left(V_\text{meas}(t)-V_\text{set}\right)dt.
 $$
 
 The signs are worth thinking through. If the motor is too slow, then $V_\text{meas}-V_\text{set}$ is negative. The error amplifier subtracts this negative value, so the control voltage rises. This drives the motor harder. If the motor is too fast, the opposite happens: the measured voltage is larger than the setpoint, and the control voltage decreases.
