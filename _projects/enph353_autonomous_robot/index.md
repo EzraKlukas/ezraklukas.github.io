@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Autonomous Clue-Finding Robot in Simulation
+title: Autonomous Clue-Finding Simulated Robot
 description: This was the final project for ENPH 353, where my partner and I built an autonomous ROS/Gazebo robot to drive through a simulated course, obey traffic constraints, avoid NPCs, read clue boards, and solve a murder mystery without external input once the run started.
 skills:
   - ROS / Gazebo
@@ -103,20 +103,11 @@ One nice final trick was using the structure of the mystery itself. Even if the 
 
 # Video demonstrations
 
-The report contains a four-run uncut video showing our expected performance outside the competition run. I think including short clips is especially useful for a portfolio page like this, because simulated robotics can otherwise look abstract. A short run clip does more than a paragraph can: it shows the robot actually driving, stopping, reading signs, and making it through the course.
+Below is a video showing the performance of the robot in an isolated run. In it you can see all aspects of our design at play to achieve a perfect run in practice!
 
 <div class="video-container">
   <video class="post-video" controls muted playsinline preload="metadata" poster="{{ page.url | remove: 'index/' | append: 'competition_surface.png' | relative_url }}">
     <source src="{{ page.url | remove: 'index/' | append: 'expected_run_4.mp4' | relative_url }}" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
-
-I would also include one short perception-focused clip if the source video makes it visible enough: for example, a 10-20 second segment where the robot passes one or two signs while the score tracker updates. The text pipeline itself is hard to appreciate from still images alone, so even a simple screen recording of the extracted plate crops updating would be a useful addition.
-
-<div class="video-container">
-  <video class="post-video" controls muted playsinline preload="metadata" poster="{{ page.url | remove: 'index/' | append: 'plate_pipeline.png' | relative_url }}">
-    <source src="{{ page.url | remove: 'index/' | append: 'sign_reading_clip.mp4' | relative_url }}" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 </div>
