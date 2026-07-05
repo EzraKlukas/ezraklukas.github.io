@@ -1,73 +1,153 @@
 ---
 layout: post
 title: Real-time EMG-driven control framework
-description: This post shows a bit of the work I've been up to at my current summer internship at the Sensorimotor and Physiology lab, working under Dr. Sebastien Blouin, and alongside a few other talented engineering undergrads. This control framework aims to considerably cut the delay between human intent of motion and intervened output, which will offer many novel methods and models for the human control system to be researched. The system is also designed to be the core for a ROS2-orchestrated versatile experimental platform, offering researchers with little to no embedded / software understanding to design and run experiments, similar to what LabView can offer. The system is designed to be hard real-time, with core processing running on an NVIDIA Jetson Orin Nano with PREEMPT_RT patch and kernel modifications. EMG and IMU acquisition is mastered by a Red Pitaya FPGA development board, and ADC acquisition and motor control is mastered by an EtherCAT kernel module on the Jetson.
-skills: 
-  - Real-time PREEMPT_RT linux development
+description: This post summarizes my current summer work in UBC Kinesiology's Sensorimotor Physiology Lab, building the embedded/software core for a real-time EMG-driven experimental control framework. The goal is to move from force-plate driven intervention toward low-latency motor-unit based control, while keeping the system modular enough that future experiments can be built on top of it.
+skills:
+  - Real-time PREEMPT_RT Linux development
   - C / C++
   - CMake
-  - git 
-  - gdb 
+  - git
+  - gdb
   - Eigen / BLAS
   - EtherCAT
-  - FPGA Development: SystemVerilog, Vivado, XSim, Oscilloscope, Logic analyzer
+  - IgH EtherCAT Master
+  - CiA 402 servo control
+  - FPGA development
+  - SystemVerilog
+  - Vivado / XSim
+  - Oscilloscope and logic analyzer debugging
   - Signal processing
-  - linear algebra 
-  - statistics
-  - Blind Source Separation problem
-  - ROS2
-  - Communication, effectively working with peers
-
+  - Linear algebra
+  - Statistics
+  - Blind source separation
+  - ROS2 system design
+  - Technical documentation and handoff
 main-image: emg_decomp_diagram.png
 ---
+
 # Control Problem Motivation
-Broadly, the Sensorimotor and Physiology lab, where I am working this summer, seeks to study the human balance control system. Sensibly, one of the main ways to study such a system is to investigate its response to external stimuli. Upon constructing a model for a control mechanism, it's also helpful to study what happens when we intentionally intervene with the actual mechanism. This is where the need for realtime control presents itself. For example, one might be interested in the effect of amplifying the amplitude response to vestibular inputs as a means of helping individuals at higher fall-risk. So far, we've implemented real-time control loops that take state data and force plate input and calculate appropriate motor command outputs in an experiment. See the robot that this loop is currently implemented, and on which we aim to migrate to the framework we're developing this summer.
+
+Broadly, the Sensorimotor Physiology Lab, where I am working this summer, studies the human balance control system. One natural way to study such a system is to perturb it, measure how it responds, and then ask what happens when we intentionally intervene in the loop.
+
+This is where real-time control becomes interesting. For example, one might want to amplify or alter the response to vestibular input as a way of probing balance control, or eventually as a way of assisting people at higher fall risk. The lab already has real-time control loops which use state information and force-plate input to command a motorized experimental platform. The robot below is the current platform that this loop is implemented on, and part of the longer-term goal is to migrate toward the framework we are developing this summer.
 
 ![(currently) force plate driven robot]({{ page.url | remove: 'index/' | append: 'robot_photo.jpg' | relative_url }})
 
-There are at least two practical limitations to using outputted force as an input to a control loop:
-1. The latency between when the brain (the heart of the human control system) produces its intended command and when that output appears is quite substantial (up to 100 ms), and variable between muscle types (slow twitch vs. fast twitch). The variability of latency across different muscle-types that might contribute to a force output makes it impossible to understand to retrieve a more fine-grained view of the brain's intent.
-2. For individuals who's brain commands don't properly translate to an output force, it's impossible to interpret intended force.
+There are two practical limitations to using output force as the main input to a control loop. First, the force appears relatively late in the chain from brain intent to mechanical output. Different muscles and motor units also have different delays, so once the output is summed into force, a lot of the timing information we care about has already been blurred together. Second, for people whose neural commands do not translate cleanly into output force, force alone is not always the right place to look for intent.
 
-Among others, these reasons justify the need for the control loop input to be higher up the brain -> output force command chain than what we currently have capability for. Thankfully, with the accessibility of higher-power compute, good quality electromyography sensors and amplifiers, and cheap student labour, we can aspire to use the electrical signals from individual motor neuron impulses as the input to our control loop.
+The motivating idea is therefore to move the input of the control loop higher up the chain: from measured force, toward the electrical activity of the muscle, and eventually toward the discharge timings of individual motor units.
 
-# EMG decomposition: a context
+# EMG decomposition: the signal-processing problem
 
-Muscles fibres are electrically stimulated to contract by specialized motor neurons. A motor neuron can control anywhere from a few to thousands of muscle fibres. A motor neuron and all its associated controlled muscle fibres makes up one **motor unit**, and a motor neuron causes contraction by periodically firing electrical discharge signals, whose shape we can detect as a **motor unit action potential (MUAP)**. Several main EMG measuring techniques are of relevance to the lab: high density surface arrays (HDsEMG), and indwelling threaded myomatrix arrays. So far we have worked more with HDsEMG, but the firmware thankfully translates, as both methods use grids that interface with the same [RHD 2164 chip](https://intantech.com/files/Intan_RHD2164_datasheet.pdf), which amplifies and serializes 64-channel EMG signal. Because motor units are localized and signals don't propagate instantaneously or even linearly, their strength and phase varies between electrodes. It's important to note that signals propagate enough in multi-channel recordings that several (often up to all) electrodes in a grid receive signal contributions from all local motor units. Hence, measured signals can be described as a convolutive mixture of a series of delta functions, representing the discharge timings of the motor units [Negro et al. 2016](https://pubmed.ncbi.nlm.nih.gov/26924829/), whose finite duration impulse responses are the MUAP's:
+Muscle fibres are electrically stimulated to contract by motor neurons. One motor neuron and all the muscle fibres it controls form a **motor unit**, and each discharge from that motor neuron creates an electrical waveform called a **motor unit action potential** (MUAP). With high-density EMG, many electrodes record different mixtures of these same underlying motor unit events.
 
-$$ x_i(k) = \sum_{l=0}^{L-1}\sum_{j=1}^{n} h_{ij}(l)s_j(k-l) + n_{i}(k), $$
+![EMG decomposition overview]({{ page.url | remove: 'index/' | append: 'emg_decomp_diagram.png' | relative_url }})
 
-where $x_i(k)$ is the i'th EMG channel at sample point $k$, $h_{ij}(l)$ is the action potential of the $j$th motor unit as recorded from electrode $i$, and $s_j(k)$ is the spike train (discrete superposition of unit spike functions) of the $j$th motor unit, and $n_{i}(k)$ is the additive noise at electrode $i$, and $L$ is the duration of the action potential impulse response.
-This model sets the stage for Blind Source Separation (BSS) algorithms, such as the famous cocktail party problem: how can you isolate a single voice from a complex mix of background noise and conversations? It is 'blind' in the sense that we don't know how many motor units (whose MUAP convoluted spike trains are analagous to voices) there are, nor do we know anything specific about them. There's lots to be said about how to solve such a problem, but I'll dedicate another page for that (for now, see this delightful tutorial written by the founder of FastICA, one of the algorithms I've implemented: [ICA: a tutorial](https://www.cs.jhu.edu/~ayuille1/courses/Stat161-261-Spring14/HyvO00-icatut.pdf)).
+A useful way to model this is as a convolutive mixture. Each measured channel is the sum of several motor-unit spike trains, each filtered by the MUAP shape seen at that electrode:
 
-While lots can be said simply from the RMS amplitude of an EMG signal, there are several reasons to want to recover individual MU discharge times. For one, RMS amplitude corrupts as an identifier of output force when muscles become tired. Next, RMS can say nothing about the individual degrees of freedom which contributing MU's add (what if we want to determine which finger contracted). Also, MU's can have a vast range of delays between discharge timing and correspondent force output; this is the fundamental difference between fast-twitch and slow-twich muscles, and lacking foreknowledge of intended delay between EMG contribution and force output makes the problem of force reconstruction undefined. Motivated to understand the brain's control system, fine-grained insight to the activation of different types of MU's offers both greater insight to balance mechanisms, and enables us to superpose force outputs using a model that is truer to how humans generate force.
+$$
+x_i(k) = \sum_{l=0}^{L-1}\sum_{j=1}^{n} h_{ij}(l)s_j(k-l) + n_i(k).
+$$
 
-As hinted above, several methods of EMG decomposition exist, but real-time decomposition into motor unit spike-trains is currently only possible once initial offline decomposition has been run. Given an initial EMG recording in a session, offline decomposition entails iteratively finding appropriate 'MU filters' who, when projected onto multi-channel, temporally extended EMG signal, yields a MU's spike-train, indicating discharge times of a motor unit (soon I'll include a figure illustrating the signal processing steps). The MU filters are found offline, and the projection to generate spike-trains occurs online. Even though many different offline decomposition algorithms exist, by some clever algorithms their output can always be translated to the same format of multi-channel MU filters who can be projected to generate MU spike-trains in real-time.
+Here, $x_i(k)$ is the EMG signal recorded on channel $i$, $s_j(k)$ is the spike train of motor unit $j$, $h_{ij}(l)$ is the MUAP shape from motor unit $j$ as seen on electrode $i$, and $n_i(k)$ is noise. This is a blind source separation problem: the sources are not directly visible, and the number and shape of the sources are not known ahead of time.
 
-Currently, the core purpose of [emg-rt](https://github.com/EzraKlukas/emg-rt) is deterministic us-level latent high-frequency (up to 4 kHz) signal acquisition, and real-time MU filter projection. The key output is discharge_times, which will be convoluted with pre-calculated MU-specific force impulse responses (this is where transfer functions can be skewed for research purposes) and translated to appropriate servo motor control commands. While other real-time decomposition implementations exist, none are designed with high-frequency or real-time control in mind.
+For the real-time control problem, the important distinction is between **offline decomposition** and **online projection**. Offline decomposition can be computationally heavier and is used to find motor-unit filters from an initial recording. Once those filters are known, online decomposition is much more direct: take the most recent multichannel EMG window, extend/demean it in the same way as the offline algorithm, project it through the trained filters, and classify local maxima as discharge events.
 
-# Real-time EMG signal acquisition
+This is the core purpose of my C++ project, [emg-rt](https://github.com/EzraKlukas/emg-rt): make the online side deterministic, fast, and cleanly integrated with the rest of the experimental system.
 
-A challenge with designing hard real-time (meaning failure to meet a deadline is treated as catastrophic) loops is that every element of the system must have a sufficiently low bounded latency. For example, this is why many nodes in the ROS2 system don't primarily communicate via ROS2 DDS communication protocol. As another example, acquiring EMG data at a deterministic rate with bounded jitter. The current EMG acquisition module uses the USB 3.0 SS hardware and protocol, which is designed for maximal throughput, not determinism. This makes bounding data-transfer latency unrealistic. Inconsistent bounds on data acquisition time means no guarantee can be made that an output command could be supplied within some $\Delta t$ of input acquisition time.
+# System architecture
 
-Thankfully, the Intan RHD2164 chip itself communicates with SPI. Unfortunately, to accomodate up to 30 kHz 64-channel sampling rates, Intan implements a custom double data rate (DDR) SPI protocol, which default FPGA and NVIDIA Jetson SPI drivers don't accomodate. As such, the only way accomodate low jitter real-time EMG data acquisition with the Intan chips is to implement an SPI DDR master on an FPGA, and send FPGA time-stamped and packeted data to the NVIDIA Jetson (where decomposition runs) with a more deterministic transfer method; we've chosen TCP for its safety and low overhead. The FPGA acquisition system is the topic of another page, as we've also used FPGA as the translation layer for IMU's and a few ADC's.
+At a high level, the system has three timing-critical jobs:
 
-# Lessons Learned
-There are too many to name, but one big detour we've taken that should have been addressed earlier is due to the fact that Intan's EMG sensors don't use an SPI protocol that typical default drivers accomodate. I didn't scower the data-sheet when making the assumption that the NVIDIA Jetson could acquire directly from the sensors, which changed acquiring EMG data on the Jetson from being a few hour project to taking several weeks of learning FPGA development and implementing and testing my own module. I'm ultimately thankful for the deep FPGA waters it's exposed me to, but I obviously want to work as efficiently and quickly as possible.
+1. acquire EMG/IMU/ADC data with timestamps,
+2. run online decomposition on the Jetson,
+3. publish motor commands on a deterministic EtherCAT cycle.
 
-Another set of lessons I'm learning is about when it's worth giving a problem to AI, and when it's worth doing yourself. It's a fast-changing landscape of defining what problems are brainless and which aren't, and learning the balance between when to trust AI with an easily definable boring coding task, versus when I place greater value on learning a skill from the bottom up without wasting my employer's time has been an often confusing journey. That said, learning this balance has also been deeply rewarding, because I've become far more efficient while still learning lots of skills and deep understanding that many peers might not be able to boast because of relying on AI with too much, too early.
+The diagram below is not meant to imply that every feature is finished, but it gives the intended shape of the system. The Jetson runs the real-time compute and EtherCAT master. The Red Pitaya acts as the FPGA-facing acquisition system. A host computer is still useful for offline decomposition, visualization, parameter selection, and experiment orchestration.
 
-Lastly, regarding working well and taking initiative in teams, initiating low-stakes check-ins has always been fruitful in so many ways. For one, it builds safety and trust within the team, and has often led to offering a listening ear that someone has needed to quickly come to a problem's solution. Selfishly for me though, it both helps both of us find and clear misunderstandings about tasks we're working on together, as well as give me a deeper understanding of their work, reducing the barrier of entry both to helping, and for me to learn a skill or system I wouldn't otherwise have learned.
+![System architecture diagram]({{ page.url | remove: 'index/' | append: 'emg_rt_architecture.png' | relative_url }})
+
+A major part of my work has been deciding where the real-time boundaries should be. ROS2 is very useful for orchestration, visualization, and experiment structure, but I do not want the hardest timing guarantees to depend on normal ROS2 message passing. The core loop is therefore designed around lower-level C++ data structures and real-time threads, with ROS2 sitting around the system rather than inside every deadline-critical path.
+
+The C++ acquisition side has evolved quite a bit. Earlier designs centered around a single EMG ring buffer. The current design is closer to what the full acquisition system actually needs: an `AcquisitionFrameBuffer` owns parallel acquisition buffers for EMG, IMU, and ADC data, while each `AcquisitionRingBuffer` stores fixed-duration sensor history with timestamps and monotonically increasing sample indices. Readers own their own last-read index, which is important because the decomposition thread, logging thread, and visualization thread should not all be fighting over one shared `read_head`.
+
+This is one of those design choices that looks like bookkeeping at first, but is really about making the system maintainable. Once several future students are adding new sensors, loggers, and analysis nodes, hidden ownership of buffer state becomes a great way to create subtle timing bugs.
+
+# EtherCAT: deterministic motor command output
+
+EtherCAT is the motor-output side of the system. In normal Ethernet, packets are routed as fairly independent messages. EtherCAT is different: a frame passes through the slave devices in a deterministic order, and each device reads or writes its process data as the frame passes through. For a real-time motor loop, this is exactly the kind of structure we want. The master can assemble command data, exchange process data with the slaves, and synchronize the timing of outputs through distributed clocks.
+
+In practice, my work here involved bringing a Teknic ClearPath EtherCAT servo through the CiA 402 state machine, mapping the relevant PDOs, and running cyclic synchronous position commands from the Jetson. I started with SOEM, evaluated Acontis, and eventually moved toward IgH EtherCAT Master with an Intel i210 NIC using the `ec_igb` driver. The point of that hardware/software choice was not just to make the motor move; it was to make the timing measurable and bounded enough that the rest of the real-time loop could be designed with actual margins.
+
+A useful way to think about the cycle is:
+
+1. the master thread wakes up at the start of the period,
+2. it receives and processes the previous process-data frame,
+3. it reads servo state and writes the next target command,
+4. it queues and sends the next EtherCAT frame,
+5. the servo applies the output at the synchronized hardware time.
+
+The two most important timing measurements were wake-up latency and execution time. Wake-up latency tells me how late the real-time thread started relative to the requested time. Execution time tells me how long the EtherCAT receive/process/write/send sequence took once the thread was awake. The sum of those two gives the deadline usage.
+
+At 1 kHz, the IgH/i210 setup gave very encouraging margins:
+
+| Test condition | Worst latency | Worst execution | Worst deadline usage | Remaining 1 ms margin |
+| --- | ---: | ---: | ---: | ---: |
+| 10 min, no stress | 24.0 µs | 31.8 µs | 42.4 µs | 957.6 µs |
+| 10 min, CPU + memory + I/O stress | 62.9 µs | 80.6 µs | 96.6 µs | 903.4 µs |
+| 1 hour, maximum stress | 97.2 µs | 97.7 µs | 118.8 µs | 881.2 µs |
+
+![Worst per-second EtherCAT deadline usage over one hour at maximum stress]({{ page.url | remove: 'index/' | append: 'ethercat_deadline_usage_one_hour.png' | relative_url }})
+
+These numbers were a big turning point for me. They made the EtherCAT side feel less like a black box and more like a well-characterized piece of the larger timing budget. A 2 kHz loop also appears plausible, though I would want more careful testing before treating it as the main design point. For now, 1 kHz gives a comfortable baseline while leaving substantial time for EMG decomposition and command generation.
+
+# Real-time decomposition performance
+
+The other half of the timing question is whether online EMG decomposition can run quickly enough on the Jetson. I started with a straightforward C++ implementation, then added profiling around each major stage: writing into the acquisition buffer, reading into the grid workspace, extending the signal, demeaning, projecting through the MU filters, finding local maxima, and thresholding discharges.
+
+The first version was much slower than it needed to be, especially in the pulse-train projection step. Rewriting the hot loop around Eigen matrix operations made a large difference. Another important lesson came from profiling strange 50 ms latency spikes: they were not algorithmic at all, but came from Linux real-time throttling. Disabling RT bandwidth enforcement for this dedicated real-time setup removed those periodic stalls.
+
+In one representative offline replay on the Jetson, after CPU isolation and real-time scheduling changes, the decomposition path was no longer the bottleneck:
+
+| Section | Mean | Worst observed |
+| --- | ---: | ---: |
+| Full cycle | 10.7 µs | 55.3 µs |
+| EMG decomposition | 9.7 µs | 24.0 µs |
+| Pulse-train projection | 5.2 µs | 40.9 µs |
+| Ring-buffer sample read | 0.087 µs | 9.2 µs |
+
+I do not want to overstate this as the final end-to-end result, because replaying stored data is not the same as closing the loop with live acquisition. Still, it is a very encouraging result. It suggests that the C++ decomposition computation itself is fast enough that the remaining hard problems are mostly system integration, acquisition timing, and validating that the detected motor units are physiologically meaningful.
+
+![Example spike-triggered average from FastICA decomposition work]({{ page.url | remove: 'index/' | append: 'fastica_muap_example.png' | relative_url }})
+
+# Acquisition and FPGA work
+
+The acquisition side has been the main place where the project became more hardware-facing than expected.
+
+The Intan RHD2164 chip is attractive because it gives us 64 channels of amplified EMG data in a small front-end. The catch is that it uses a custom double-data-rate SPI interface: data is effectively transferred on both clock edges, which normal Jetson SPI drivers do not support. At the sampling rates we care about, bit-banging this reliably on Linux GPIO is not the right tool.
+
+![Standard SPI compared with DDR SPI timing]({{ page.url | remove: 'index/' | append: 'sdr_vs_ddr_spi_timing.png' | relative_url }})
+
+This is why the Red Pitaya FPGA exists in the system. The FPGA can do the timing-sensitive acquisition work close to the pins: DDR SPI, timestamping, synchronization, buffering, and transfer into the processor side. From there, packets can be sent to the Jetson over Ethernet. I do not want TCP itself to be the timing source; the timestamped samples and a deliberately delayed acquisition buffer are what let the Jetson consume data at a consistent offset from acquisition time.
+
+Most of the surrounding FPGA acquisition system is now in place: the Red Pitaya-side buffering/transfer architecture, the DMA-facing path, packetization, and the Jetson-side acquisition-buffer design are largely established. The major missing hardware block is the Intan DDR SPI reader itself. That is the next piece I need to develop and validate carefully with simulation, scope/logic-analyzer traces, and eventually real Intan data.
+
+# What I have learned so far
+
+The biggest technical lesson has been that “real-time” is not the same as “fast.” Fast average performance is nice, but the quantity that matters for a control loop is the worst case. A 10 µs average with a hidden 50 ms stall is not a real-time loop; it is a demo that happens to work until it does not.
+
+The second lesson is that interfaces matter as much as algorithms. A good motor-unit decomposition algorithm is only useful in a closed-loop experiment if the data arriving to it has bounded timing, clear ownership, and enough metadata to be trusted. This is why I have spent so much time on buffer ownership, timestamps, sample indices, profiling, and tests, even though those pieces are less glamorous than the signal processing itself.
+
+The last lesson is more personal. I have been learning when to use AI as an accelerator and when to slow down and build understanding myself. It is very useful for boilerplate, testing prompts, and sanity-checking designs, but it is not a substitute for actually understanding why an EtherCAT cycle missed its timing, why an Eigen expression did the wrong broadcast, or why a sensor interface cannot be handled by a default driver.
 
 # What still needs to be done?
-For one, the control loop still needs to be closed. The main road-block at the moment is designing and acquiring the mapping from discharge time to output force. We attempted a trial to gather EMG and force synchronized data to begin developing, but in light of a recent move and related troubles, a faulty synchronization signal generation and some noisy EMG channels halted success. Even so, we will generate a fake convolutive mapping so that the software and hardware framework can be tested with fake EMG data translating to EtherCAT commands.
 
-As well, the ROS2 abstraction experiment manager and all related UI features are still in development. The goal would be for a UI interface similar to LabView to permit researchers to essentially drag and drop, and run functions that use chosen real-time acquired inputs, and translate to chosen output controls. These functions will be encapsulated with ROS2 nodes for experiment-time visibility, and distinction will be made between when to use ROS2 intranode communication, or lower level, low latency on-Jetson communication for control. The advantage is that several machines (such as a VR headset, for example) can be managed on one ROS2 network, providing visibility, debugging capabilities, and live host computer visualization during an experiment.
+There are three major next steps.
 
-We also want to provide the opportunity to add more DAC or digital I/O EtherCAT terminal slaves to the network, so further modificiation can be made to what data is being acquired in an experiment. For this feature I still need to adapt the EtherCAT motor specific Jetson master to detect and handle communication with theoretically any number of slaves, and make relevant data transparent and accessible to ROS2 nodes via ROS2 DDS (at the tradeoff of increased latency / jitter) or at a lower level. 
+First, the Intan DDR SPI reader needs to be finished on the FPGA and validated from the pins upward. This is the main remaining acquisition block before we can retire the USB-facing Intan path for live real-time experiments.
 
-Lastly, but very importantly, the FPGA DDR SPI module for EMG acquisition is not yet complete, and we've been using Intan's USB-facing EMG acquisition module so far. However, the surrounding architecture of DMA, buffering, packetizing, and TCP communication from Pitaya to Jetson is ready, so FPGA development is near the finish line.
+Second, we need cleaner synchronized EMG/force trials to validate the force-mapping side. The software can already be tested with fake EMG and synthetic force mappings, but the biologically interesting part is learning a mapping from detected motor-unit discharge times to force output.
 
-If you've made it this far, thank you for reading. I hope this has given you a helpful look into what I've been working on this summer, and would love to chat if you have any questions!
+Third, the full loop needs to be closed in stages: fake EMG into EtherCAT commands, recorded EMG replay into EtherCAT commands, then live FPGA-acquired EMG into EtherCAT commands. Around that, ROS2 can provide experiment orchestration, logging, visualization, and higher-level UI tools without sitting directly inside the most timing-critical path.
 
-Ezra
+If you've made it this far, thank you for reading. I hope this gives a useful picture of what my work has looked like so far: a mix of signal processing, real-time Linux, EtherCAT motor control, FPGA acquisition design, and a lot of careful debugging at the boundaries between them.
