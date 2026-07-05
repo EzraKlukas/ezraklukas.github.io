@@ -1,220 +1,190 @@
-- code: "APSC 100"
-  title: "Introduction to Engineering I"
-  term: "2023W1"
-  area: "General Engineering"
-  note: "Initial exposure to formal design processes, with emphasis placed on the stakeholder."
-- code: "CHEM 154"
-  title: "CHEM FOR ENGR"
-  term: "2023W1"
-  area: "General Engineering"
-  note: "First exposure to many AP level chemistry. It's been rewarding to see concepts covered in this class resurface over the years in pure math or physics classes."
-- code: "ECON 101"
-  title: "Principles of Microeconomics"
-  term: "2023W1"
-  area: "Humanities"
-  note: "Good precursor to my later engineering economics class."
-- code: "MATH 120"
-  title: "Honours Differential Calculus"
-  term: "2023W1"
-  area: "Mathematics"
-  note: "One of the more challenging courses I've taken, and has served me so well in any math class I've taken since as I obtained a relatively bullet-proof formal introduction to calculus."
-- code: "PHYS 157"
-  title: "Initial exposure to thermodynamics, "
-  term: "2023W1"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "WRDS 150B"
-  title: "Writing and Research in the Disciplines"
-  term: "2023W1"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "APSC 101"
-  title: "Introduction to Engineering II"
-  term: "2023W2"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "APSC 160"
-  title: "Introduction to Computation in Engineering Design"
-  term: "2023W2"
-  area: "Electrical / Computer Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 121"
-  title: "Honours Integral Calculus"
-  term: "2023W2"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 152"
-  title: "Linear Systems"
-  term: "2023W2"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 158"
-  title: "Introductory Physics for Engineers II"
-  term: "2023W2"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 159"
-  title: "Introductory Physics Laboratory for Engineers"
-  term: "2023W2"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 170"
-  title: "Mechanics I"
-  term: "2023W2"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "CPEN 221B"
-  title: "Software Construction I"
-  term: "2024W1"
-  area: "Electrical / Computer Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "ELEC 204"
-  title: "Linear Circuits"
-  term: "2024W1"
-  area: "Electrical / Computer Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "ENPH 259"
-  title: "Experimental Techniques"
-  term: "2024W1"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 217"
-  title: "Multivariable and Vector Calculus"
-  term: "2024W1"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 220"
-  title: "Mathematical Proof"
-  term: "2024W1"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 255"
-  title: "Ordinary Differential Equations"
-  term: "2024W1"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "APSC 278"
-  title: "Engineering Materials"
-  term: "2024W2"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "APSC 279"
-  title: "Engineering Materials Laboratory"
-  term: "2024W2"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "CIVL 250"
-  title: "Engineering and Sustainable Development"
-  term: "2024W2"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "ELEC 481"
-  title: "Economic Analysis of Engineering Projects"
-  term: "2024W2"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 307"
-  title: "Applied Linear Algebra"
-  term: "2024W2"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MECH 260"
-  title: "Introduction to Mechanics of Materials"
-  term: "2024W2"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MECH 280"
-  title: "Introduction to Fluid Mechanics"
-  term: "2024W2"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 301"
-  title: "Electricity and Magnetism"
-  term: "2024W2"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "APSC 202"
-  title: "Technical Communication Engineering Physics"
-  term: "2025S"
-  area: "General Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "ENPH 253"
-  title: "Introduction to Instrument Design"
-  term: "2025S"
-  area: "Robotics / Controls"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "ENPH 257"
-  title: "Heat and Thermodynamics"
-  term: "2025S"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "ENPH 270"
-  title: "Mechanics II"
-  term: "2025S"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 257"
-  title: "Partial Differential Equations"
-  term: "2025S"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 250"
-  title: "Introduction to Modern Physics"
-  term: "2025S"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "ENPH 353"
-  title: "Engineering Physics Project I"
-  term: "2025W1"
-  area: "Robotics / Controls"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 322"
-  title: "Introduction to Group Theory"
-  term: "2025W1"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHIL 220"
-  title: "Symbolic Logic"
-  term: "2025W1"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 304"
-  title: "Introduction to Quantum Mechanics"
-  term: "2025W1"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "CPEN 312"
-  title: "Digital Systems and Microcomputers"
-  term: "2025W2"
-  area: "Electrical / Computer Engineering"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 305"
-  title: "Applied Complex Analysis"
-  term: "2025W2"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "MATH 443"
-  title: "Graph Theory"
-  term: "2025W2"
-  area: "Mathematics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 350"
-  title: "Applications of Classical Mechanics"
-  term: "2025W2"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 401"
-  title: "Electromagnetic Theory"
-  term: "2025W2"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "PHYS 402"
-  title: "Applications of Quantum Mechanics"
-  term: "2025W2"
-  area: "Physics"
-  note: "TODO: Add a short reflection on what this course contributed."
-- code: "APSC 110"
-  title: "Co-operative Education Work Term I"
-  term: "2026S"
-  area: "General Engineering"
-  note: "TODO: Decide whether to keep work terms in this public course list."
+- code: ENPH 253
+  title: Introduction to Instrument Design
+  area: Robotics / Controls
+  term: 2025S
+  featured: true
+  summary: A full-summer autonomous robot design course, combining mechanical design, electronics, firmware, sensing, and integration under time pressure.
+  takeaways:
+    - Learned how quickly real systems expose weak assumptions
+    - Built practical skill in prototyping, debugging, and mechanical/electrical integration
+    - Became much more comfortable failing ideas quickly and iterating toward working hardware
+- code: ENPH 353
+  title: Engineering Physics Project I
+  area: Robotics / Controls
+  term: 2025W1
+  featured: true
+  summary: A robotics course based around simulation, ROS, computer vision, machine learning, and autonomous navigation.
+  takeaways:
+    - Practiced building perception and control systems around noisy camera data
+    - Learned the tradeoff between handcrafted logic and learned models
+    - Got more comfortable integrating Python, ROS, OpenCV, and CNNs into one autonomous system
+- code: ENPH 259
+  title: Experimental Techniques
+  area: Electronics / Instrumentation
+  term: 2024W1
+  featured: true
+  summary: A project-centered instrumentation course focused on measurement, experimental design, circuit debugging, and technical communication.
+  takeaways:
+    - Built the foundation for my motor control circuit project
+    - Practiced debugging physical systems one measurable stage at a time
+    - Learned to treat documentation as part of the engineering process
+- code: ELEC 204
+  title: Linear Circuits
+  area: Electrical / Computer Engineering
+  term: 2024W1
+  featured: true
+  summary: A foundations course in circuit analysis, including passive networks, op-amps, frequency response, and system-level circuit reasoning.
+  takeaways:
+    - Gave me the analysis tools behind my motor control circuit project
+    - Built comfort moving between schematic intuition and quantitative equations
+    - Made debugging feel more principled instead of purely guess-and-check
+- code: CPEN 221B
+  title: Software Construction I
+  area: Electrical / Computer Engineering
+  term: 2024W1
+  featured: true
+  summary: A software construction course emphasizing data structures, program design, testing, and maintainable Java systems.
+  takeaways:
+    - Built stronger habits around decomposition and testing
+    - Made software design feel like an engineering discipline rather than syntax
+    - Gave useful background for larger robotics and systems projects
+- code: CPEN 312
+  title: Digital Systems and Microcomputers
+  area: Embedded Systems
+  term: 2025W2
+  featured: true
+  summary: A digital systems course connecting logic, microcontrollers, computer architecture, and low-level hardware/software interfaces.
+  takeaways:
+    - Strengthened my understanding of how software meets hardware
+    - Built intuition for timing, state, and digital interfaces
+    - Connected naturally to embedded firmware and FPGA work
+- code: MATH 220
+  title: Mathematical Proof
+  area: Mathematics
+  term: 2024W1
+  featured: true
+  summary: A transition from computation-heavy mathematics into proof, definitions, logical structure, and careful mathematical writing.
+  takeaways:
+    - Learned to treat definitions as objects to work with, not just text before the problems
+    - Built confidence writing clear proofs from first principles
+    - Made later abstract math courses feel much more approachable
+- code: MATH 322
+  title: Introduction to Group Theory
+  area: Mathematics
+  term: 2025W1
+  featured: true
+  summary: A first course in abstract algebra, using groups to study symmetry, structure, quotient objects, and homomorphisms.
+  takeaways:
+    - Built comfort with abstraction and structure-preserving maps
+    - Practiced moving between concrete examples and general theorems
+    - Strengthened my patience for problems where the right viewpoint is the hard part
+- code: MATH 307
+  title: Applied Linear Algebra
+  area: Mathematics
+  term: 2024W2
+  featured: true
+  summary: A deeper computational and conceptual treatment of linear algebra, emphasizing matrix decompositions and numerical methods.
+  takeaways:
+    - Strengthened the linear algebra behind signal processing and machine learning
+    - Built better intuition for conditioning, projections, and decompositions
+    - Made numerical methods feel more connected to geometry
+- code: MATH 152
+  title: Linear Systems
+  area: Mathematics
+  term: 2023W2
+  featured: true
+  summary: A systems-oriented course connecting differential equations, linear algebra, transforms, and control-relevant thinking.
+  takeaways:
+    - Helped connect mathematical structure to physical dynamical systems
+    - Strengthened intuition around linear time-invariant systems
+    - Gave useful background for controls and real-time signal processing
+- code: MATH 255
+  title: Ordinary Differential Equations
+  area: Mathematics
+  term: 2024W1
+  featured: true
+  summary: A first focused course in differential equations as models for physical systems with evolving state.
+  takeaways:
+    - Built fluency with analytical tools for dynamical systems
+    - Connected eigenvalues, stability, and solution structure
+    - Helped bridge mathematical methods and engineering models
+- code: MATH 257
+  title: Partial Differential Equations
+  area: Mathematics
+  term: 2025S
+  featured: true
+  summary: A first look at PDEs as models for spatially distributed physical systems such as waves, heat flow, and diffusion.
+  takeaways:
+    - Connected mathematical analysis to physical modelling
+    - Built comfort with separation of variables and boundary-value problems
+    - Improved my sense for how assumptions show up in equations
+- code: MATH 305
+  title: Applied Complex Analysis
+  area: Mathematics
+  term: 2025W2
+  featured: true
+  summary: A course on complex functions, contour integration, residues, and the analytic structure behind many physics and engineering methods.
+  takeaways:
+    - Made complex-valued methods feel less formal and more geometric
+    - Strengthened intuition for poles, residues, and transforms
+    - Connected mathematical structure to tools used in physics
+- code: MATH 443
+  title: Graph Theory
+  area: Mathematics
+  term: 2025W2
+  featured: true
+  summary: A proof-based course on graphs, connectivity, matching, coloring, planarity, and discrete structure.
+  takeaways:
+    - Built a different kind of mathematical intuition from continuous models
+    - Practiced proving structural statements with clean combinatorial arguments
+    - Made discrete abstraction feel more connected to algorithms and networks
+- code: PHYS 301
+  title: Electricity and Magnetism
+  area: Physics
+  term: 2024W2
+  featured: true
+  summary: A field-theory-centered electromagnetism course developing electrostatics, magnetostatics, potentials, and Maxwell-equation thinking.
+  takeaways:
+    - Strengthened my ability to reason from fields and boundary conditions
+    - Connected vector calculus to physical structure
+    - Prepared me for more advanced electrodynamics
+- code: PHYS 304
+  title: Introduction to Quantum Mechanics
+  area: Physics
+  term: 2025W1
+  featured: true
+  summary: A first quantum mechanics course focused on states, operators, measurement, wavefunctions, and canonical model systems.
+  takeaways:
+    - Built comfort with linear algebra as the language of physical state
+    - Made abstraction feel physically motivated rather than decorative
+    - Strengthened my patience for subtle mathematical interpretation
+- code: PHYS 350
+  title: Applications of Classical Mechanics
+  area: Physics
+  term: 2025W2
+  featured: true
+  summary: A mechanics course extending Newtonian methods toward deeper analytical tools and more complex physical systems.
+  takeaways:
+    - Connected mathematical methods to real physical modelling
+    - Built better intuition for constraints, coordinates, and energy methods
+    - Supported my broader interest in dynamics and control
+- code: PHYS 401
+  title: Electromagnetic Theory
+  area: Physics
+  term: 2025W2
+  featured: true
+  summary: An advanced electromagnetism course developing Maxwell's equations, waves, radiation, and field-based physical reasoning.
+  takeaways:
+    - Deepened my understanding of electromagnetism as a unified field theory
+    - Built more comfort with boundary-value problems and wave phenomena
+    - Connected mathematical physics to real engineering signals and systems
+- code: PHYS 402
+  title: Applications of Quantum Mechanics
+  area: Physics
+  term: 2025W2
+  featured: true
+  summary: A continuation of quantum mechanics focused on approximation methods, applications, and more physically realistic systems.
+  takeaways:
+    - Practiced using abstract quantum tools on less idealized problems
+    - Strengthened links between operators, spectra, and physical prediction
+    - Built confidence moving between formalism and computation

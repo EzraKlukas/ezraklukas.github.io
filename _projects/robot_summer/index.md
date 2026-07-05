@@ -36,5 +36,3 @@ Startup calibration matters because the robot needs to begin a run from a known 
     Your browser does not support the video tag.
   </video>
 </div>
-
-If `.mov` playback proves unreliable in browsers, I may later convert this clip to `.mp4`.

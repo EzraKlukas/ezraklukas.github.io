@@ -8,12 +8,17 @@
         {% for book in site.data.books %}
             <article class="book-card">
                 <div class="card-meta">
-                    <span class="tag">{{ book.area }}</span>
-                    <span class="tag">{{ book.status }}</span>
+                    <span class="tag-pill">{{ book.area }}</span>
+                    <span class="tag-pill">{{ book.status }}</span>
                 </div>
                 <h3>{{ book.title }}</h3>
                 <p class="book-author">{{ book.author }}</p>
-                <p>{{ book.note }}</p>
+                <p>{{ book.summary }}</p>
+                <ul class="takeaway-list">
+                    {% for takeaway in book.takeaways limit: 3 %}
+                        <li>{{ takeaway }}</li>
+                    {% endfor %}
+                </ul>
             </article>
         {% endfor %}
     </div>

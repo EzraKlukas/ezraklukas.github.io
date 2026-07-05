@@ -4,32 +4,31 @@ layout: wrapper
 
 <div class="post-view">
     <div class="summary">
-        
-       
         {% assign image_base_path = page.url | remove: 'index/' %}
         {% assign image_name = page['main-image'] | remove_first: '/' %}
         {% assign image_path = image_base_path | append: image_name | relative_url %}
         <img src="{{ image_path }}" alt="{{ page.title }} image">
-        
+
         <div class="title-header">
-            <h1>{{page.title}}</h1>
+            <h1>{{ page.title }}</h1>
         </div>
-        
+
         <div class="project-description">
             <h2>Project Overview</h2>
             <p>{{ page.description }}</p>
         </div>
+
         <div class="skills-card">
-            <h2>Skills Used</h2> 
+            <h2>Skills Used</h2>
             <div class="skills-list">
                 {% for skill in page.skills %}
-                <span class="skill">{{ skill }}</span>    
+                    <span class="skill">{{ skill }}</span>
                 {% endfor %}
             </div>
         </div>
     </div>
-      
+
     <div class="content">
-        {{content}}
+        {{ content }}
     </div>
 </div>

@@ -1,131 +1,65 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-
-# Main Page Setup
-
 repository: EzraKlukas/ezraklukas.github.io
 url: "https://ezraklukas.github.io"
 baseurl: ""
 
-title: Ezra Klukas Portfolio # This is what shows up in the tab of the browser
+title: Ezra Klukas Portfolio
 
-
-
-# Hero Section
 name: Ezra Klukas
-headline: 3rd year engineering physics student 
-description: >- # dont remove this line. this will ignore all new lines until the next section
-  I love to serve others in teams, and get excited to ask why things are the way they are.
-  I approach academics very rigorously and always seek out the deeply connected mathematics
-  and physics underlying everything we do, use, and create. I've emphasized building useful
-  practical engineering skills ontop of my academic foundation to make me a solid engineer 
-  and enable me to do really cool things with what I've learned!
+headline: 3rd year engineering physics student
+description: >-
+  I love to serve others in teams, and get excited to ask why things are the way
+  they are. I approach academics very rigorously and always seek out the deeply
+  connected mathematics and physics underlying everything we do, use, and create.
+  I've emphasized building useful practical engineering skills ontop of my
+  academic foundation to make me a solid engineer and enable me to do really cool
+  things with what I've learned!
 
-# Place your profile image in /assets/images/profile-image/folder and edit the file name
 profile_image: ./assets/images/profile-image/ezraklukas_profile_img.jpg
-
-
-# Link your resume
-# You can place your resume in assets/resume/{resume.pdf or add external link such as pdf saved in google drive 
 resume-url: /assets/resume/resume.pdf
 
+external-links:
+  linkedin: ezra-klukas-23abb826b/
+  github: EzraKlukas
+  discord: ezraklukas
+  gmail: ezraklukas@gmail.com
 
-# Set up external links - this will show up as small icons next to your name.
-
-external-links:    # input only your own url slug. The icons with missing entries will not appear.
-  linkedin: ezra-klukas-23abb826b/ # https://www.linkedin.com/in/{your url slug} 
-  github: EzraKlukas # https://github.com/{your url slug} 
-  discord: ezraklukas 
-  gmail: ezraklukas@gmail.com 
-
-# Skills Section - Add the list of your Skills by categories/tools. The indentation for each level needs to be precise. 
 skills:
   - category: 3D Modeling
     tools:
-    - Onshape
+      - Onshape
   - category: Prototyping
     tools:
-    - FDM
-    - Laser Cutting
-    - Water Jet Cutting
-    - ESP32 / Arduino / STM32
-    - Breadboarding for circuit testing
-    - Oscilloscope, logic analyzer, DMM for circuit debugging
+      - FDM
+      - Laser Cutting
+      - Water Jet Cutting
+      - ESP32 / Arduino / STM32
+      - Breadboarding for circuit testing
+      - Oscilloscope, logic analyzer, DMM for circuit debugging
   - category: PCB Design
     tools:
-    - KiCad
+      - KiCad
 
-# Contact Form Setup. Setup an account and copy over the key. When someone fills out the form, it will be received in your email.
-formspree-key:   https://formspree.io/f/xeejvbrp
+formspree-key: https://formspree.io/f/xeejvbrp
 
-
-
-# Active theme (Updatethis to switch themes). Make sure to keep the indentation the samne.
-colors: # this is the basic theme
+colors:
   text: "#1a1c20"
   border: "#ddd"
   link: "#4a76ee"
   highlight: "#0c0cf2"
   background: "#ffffff"
   light_background: "#f3f5fb"
-
-# A few examples. 
-basic theme:
-  text: "#1a1c20"
-  border: "#ddd"
-  link: "#4a76ee"
-  highlight: "#0c0cf2"
-  background: "#ffffff"
-  light_background: "#f3f5fb"
-  
-  mint theme:
-  text: "#2c3333"
-  border: "#e0f2ef"
-  link: "#40b3a2"
-  highlight: "#2a9d8f"
-  background: "#f7fbfa"
-  light_background: "#f0f9f7"
-  
-lemon theme:
-  text: "#2d2926"
-  border: "#f7f3e3"
-  link: "#ffc94d"
-  highlight: "#ffb800"
-  background: "#fffdf5"
-  light_background: "#fff9e6"
-  
-  pink theme:
-  text: "#2d2d2d"
-  border: "#f8e2e2"
-  link: "#ff8fa3"
-  highlight: "#ff4d6d"
-  background: "#fff8f8"
-  light_background: "#fff5f6"
-
-
-
-
-
-
-#########################################################################################################
-# Build settings for the site. Editing the below may cause the site to malfunction.
 
 collections:
   projects:
     output: true
     permalink: /projects/:path/
 
-
 markdown: kramdown
 highlighter: rouge
 kramdown:
   syntax_highlighter: rouge
   syntax_highlighter_opts:
-    css_class: 'highlight'
+    css_class: "highlight"
     span:
       line_numbers: false
     block:
@@ -141,24 +75,14 @@ include:
 
 exclude:
   - unofficial_transcript.pdf
-
-
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+  - vendor
+  - vendor/bundle
+  - vendor/cache
+  - vendor/gems
+  - vendor/ruby
+  - node_modules
+  - Gemfile
+  - Gemfile.lock
+  - .bundle
+  - .sass-cache
+  - .jekyll-cache

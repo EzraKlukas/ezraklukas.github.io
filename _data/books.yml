@@ -1,10 +1,27 @@
 - title: How to Prove It
   author: Daniel Velleman
-  area: Mathematics
+  area: Mathematical Proof
   status: studied
-  note: The first book that introduced me to the world of pure mathematics (did most in 2022), and kindled a great joy in the progression of self-studying a textbooks.
-- title: TODO Book Title
-  author: TODO Author
-  area: TODO Area
-  status: planned
-  note: "TODO: Replace this placeholder with a book you have studied properly."
+  summary: The book that first made proof-based mathematics feel accessible and worth taking seriously.
+  takeaways:
+    - Helped me learn how to read and write proofs carefully
+    - Made definitions, quantifiers, and logical structure feel concrete
+    - Changed how I approached self-study
+- title: Abstract Algebra
+  author: Dummit and Foote
+  area: Algebra
+  status: studied selections
+  summary: My main extracurricular path into group theory and algebraic structure beyond course requirements.
+  takeaways:
+    - Built comfort learning from a dense textbook independently
+    - Strengthened my ability to work through hard examples slowly
+    - Made algebra feel like a language for structure, not just a course topic
+- title: Principles of Mathematical Analysis
+  author: Walter Rudin
+  area: Real Analysis
+  status: studied selections
+  summary: A compact and demanding introduction to analysis that rewards careful reading at sentence-level precision.
+  takeaways:
+    - Trained patience with dense mathematical exposition
+    - Strengthened epsilon-delta reasoning and proof discipline
+    - Made me more careful about hidden assumptions in analysis

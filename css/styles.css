@@ -377,8 +377,10 @@ nav .mobile-nav {
 }
 
 
-/* COURSES AND BOOKS */
+/* COURSEWORK AND BOOKSHELF */
 
+.coursework-section,
+.bookshelf-section,
 .notebook-section {
     margin-bottom: 100px;
 }
@@ -415,7 +417,7 @@ nav .mobile-nav {
 .course-grid,
 .book-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 16px;
 }
 
@@ -425,13 +427,11 @@ nav .mobile-nav {
 .debug-card,
 .math-card,
 .system-card {
-    background:
-        linear-gradient(90deg, rgba(74, 118, 238, 0.08) 1px, transparent 1px),
-        var(--background-color);
-    background-size: 24px 24px;
-    border: 1px solid var(--border-color);
+    background: var(--background-color);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08),
+                0 2px 4px -1px rgba(0, 0, 0, 0.04);
     padding: 15px;
 }
 
@@ -440,20 +440,20 @@ nav .mobile-nav {
     color: var(--text-color);
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }
 
-.course-title,
 .book-author {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
-.course-note,
+.course-card p,
 .book-card p {
     font-size: 13px;
     line-height: 1.55;
+    margin-bottom: 10px;
 }
 
 .card-meta {
@@ -463,7 +463,7 @@ nav .mobile-nav {
     margin-bottom: 10px;
 }
 
-.tag {
+.tag-pill {
     background: var(--light-background-color);
     border: 1px solid var(--border-color);
     border-radius: 999px;
@@ -472,6 +472,18 @@ nav .mobile-nav {
     font-size: 12px;
     line-height: 1;
     padding: 5px 8px;
+}
+
+.takeaway-list {
+    color: var(--text-color);
+    font-size: 13px;
+    line-height: 1.45;
+    margin: 0.75rem 0 0;
+    padding-left: 1.1rem;
+}
+
+.takeaway-list li {
+    margin-bottom: 0.35rem;
 }
 
 .note-card,

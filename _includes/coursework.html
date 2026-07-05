@@ -1,0 +1,33 @@
+<section id="coursework" class="coursework-section">
+    <div class="section-heading">
+        <p class="section-kicker">Selected coursework</p>
+        <h2>Coursework</h2>
+    </div>
+
+    {% assign featured_courses = site.data.courses | where: "featured", true %}
+    {% assign course_groups = featured_courses | group_by: "area" | sort: "name" %}
+
+    {% for group in course_groups %}
+        <div class="course-area">
+            <h3>{{ group.name }}</h3>
+            <div class="course-grid">
+                {% assign courses = group.items | sort: "term" | reverse %}
+                {% for course in courses %}
+                    <article class="course-card">
+                        <div class="card-meta">
+                            <span class="tag-pill">{{ course.code }}</span>
+                            <span class="tag-pill">{{ course.term }}</span>
+                        </div>
+                        <h4>{{ course.title }}</h4>
+                        <p>{{ course.summary }}</p>
+                        <ul class="takeaway-list">
+                            {% for takeaway in course.takeaways limit: 3 %}
+                                <li>{{ takeaway }}</li>
+                            {% endfor %}
+                        </ul>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</section>
