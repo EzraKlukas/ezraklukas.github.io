@@ -312,13 +312,14 @@ nav .mobile-nav {
 }
 
 .project-card img {
-    width: 100%; 
-    max-width: 100%; 
-    aspect-ratio: 3/1;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;
     border-radius: 6px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
+    background: var(--light-background-color);
 }
 
 
@@ -593,11 +594,12 @@ footer p {
 
 .post-view .summary img {
     width: 100%;
-    height: 100%;  /* Changed to 100% to fill the container */
-    object-fit: cover;
+    max-height: 420px;
+    height: auto;
+    object-fit: contain;
     border-radius: 6px;
-    aspect-ratio: 3/1;
     margin-bottom: 10px;
+    background: var(--light-background-color);
 }
 
 .post-view .summary .project-description {
@@ -630,6 +632,39 @@ footer p {
     padding: 0 50px;
     border-radius: 10px;
 }
+
+.post-view .content img {
+    display: block;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    margin: 1.25rem auto;
+    border-radius: 6px;
+}
+
+.post-view .content .wide-img img,
+.post-view .content img.wide-img {
+    width: 100%;
+    max-width: 100%;
+}
+
+.post-view .content figure {
+    margin: 1.5rem auto;
+    text-align: center;
+}
+
+.post-view .content figure img {
+    margin-bottom: 0.5rem;
+}
+
+.post-view .content figcaption {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: calc(8px + 0.45vw);
+    line-height: 1.4;
+}
  
 .post-view .content .image-gallery {
     display: flex;
@@ -647,6 +682,7 @@ footer p {
     max-width: 100%;
     object-fit: contain;
     align-self: flex-start;
+    margin: 0;
 }
   
 .post-view .content  a {
@@ -711,9 +747,25 @@ footer p {
 
 .youtube-container {
     width: 100%;
-    max-width: var(--max-width);
-    margin: 0 ;
-    padding: 5px
+    max-width: 960px;
+    margin: 1.5rem auto;
+    padding: 0;
+}
+
+.video-container {
+    width: 100%;
+    max-width: 960px;
+    margin: 1.5rem auto;
+}
+
+.post-video,
+.video-container video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    border-radius: 8px;
+    background: #000;
 }
 
 .youtube-aspect-ratio {
@@ -887,13 +939,21 @@ footer p {
         
          
     }
-    .post-view.image-gallery {
+    .post-view .image-gallery {
         column-gap: 5px;
         row-gap: 5px;
       }
+
+    .post-view .content img {
+        max-height: none;
+    }
+
+    .post-view .summary img {
+        max-height: 260px;
+    }
       
     .video-container {
-        margin:0 auto;
+        margin: 1rem auto;
     }
     
 }
@@ -946,4 +1006,3 @@ footer p {
 
       
 }
-
