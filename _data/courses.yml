@@ -138,6 +138,26 @@
     - Built a different kind of mathematical intuition from continuous models
     - Practiced proving structural statements with clean combinatorial arguments
     - Made discrete abstraction feel more connected to algorithms and networks
+- code: ENPH 257
+  title: Heat and Thermodynamics
+  area: Physics
+  term: 2025S
+  featured: true
+  summary: A mathematically motivated introduction to thermodynamics, connecting macroscopic laws, microscopic models, heat transfer, engines, entropy, and state variables.
+  takeaways:
+    - Built a more physical understanding of entropy, temperature, and thermodynamic state
+    - Connected calculus and modelling assumptions to heat flow, gases, and engines
+    - Made thermodynamics feel less like memorized laws and more like a structured mathematical theory
+- code: MATH 217
+  title: Multivariable and Vector Calculus
+  area: Mathematics
+  term: 2024W1
+  featured: true
+  summary: An intense introduction to multivariable and vector calculus, moving from mechanical computation into a more theoretical view of fields, flux, integration, and geometry.
+  takeaways:
+    - Built fluency with gradients, Jacobians, multiple integrals, vector fields, and integral theorems
+    - Strengthened the geometric intuition behind physics-heavy mathematics
+    - Gave a neat first glimpse of differential forms and differential geometry as a cleaner language for calculus
 - code: PHYS 301
   title: Electricity and Magnetism
   area: Physics

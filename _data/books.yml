@@ -10,7 +10,7 @@
 - title: Abstract Algebra
   author: Dummit and Foote
   area: Algebra
-  status: studied selections
+  status: studied group theory part
   summary: My main extracurricular path into group theory and algebraic structure beyond course requirements.
   takeaways:
     - Built comfort learning from a dense textbook independently
@@ -23,5 +23,59 @@
   summary: A compact and demanding introduction to analysis that rewards careful reading at sentence-level precision.
   takeaways:
     - Trained patience with dense mathematical exposition
-    - Strengthened epsilon-delta reasoning and proof discipline
+    - Strengthened proof discipline
     - Made me more careful about hidden assumptions in analysis
+- title: A First Course in Graph Theory
+  author: Gary Chartrand and Ping Zhang
+  area: Graph Theory
+  status: studied through Chapter 11
+  summary: A clear first path into graph theory, with enough exercises to make the subject feel constructive rather than just definitional.
+  takeaways:
+    - Worked through most exercises up to Chapter 11
+    - Built intuition for paths, connectivity, trees, matchings, colorings, planarity, and graph structure
+    - Helped make discrete proof feel more visual and combinatorial
+- title: Introduction to Electrodynamics
+  author: David J. Griffiths
+  area: Electrodynamics
+  status: completed cover to cover
+  summary: My main text for building electrodynamics from electrostatics and magnetostatics toward Maxwell's equations, waves, potentials, and radiation.
+  takeaways:
+    - Completed alongside PHYS 301 and PHYS 401
+    - Strengthened my ability to reason directly from fields, symmetry, and boundary conditions
+    - Made vector calculus feel physically alive rather than merely formal
+- title: Introduction to Quantum Mechanics / Quantum Mechanics
+  author: David J. Griffiths and Nouredine Zettili
+  area: Quantum Mechanics
+  status: studied selected chapters
+  summary: My main quantum mechanics texts, used both for the standard foundations and for more advanced applications in PHYS 304 and PHYS 402.
+  takeaways:
+    - Studied Griffiths Chapters 7 and 11 for PHYS 402
+    - Studied the PHYS 304 equivalent of Chapters 1–6, largely through Zettili
+    - Built comfort with states, operators, spectra, approximation methods, and the physical meaning and derivation for the formalism
+- title: An Introduction to Thermal Physics
+  author: Daniel V. Schroeder
+  area: Thermal Physics
+  status: studied Chapters 1–4 and 6
+  summary: A physically intuitive thermal physics text that pairs well with a mathematically serious thermodynamics course.
+  takeaways:
+    - Studied Chapters 1–4 and 6 for ENPH 257
+    - Helped connect entropy, temperature, free energy, and statistical reasoning
+    - Made thermal physics feel more conceptually unified
+- title: The Rust Programming Language
+  author: Steve Klabnik and Carol Nichols, with contributions from the Rust community
+  area: Systems Programming
+  status: ongoing
+  summary: My current extracurricular path into Rust, with the goal of building stronger habits around ownership, safety, and low-level systems design.
+  takeaways:
+    - Aiming to complete it this summer
+    - Building intuition for ownership, borrowing, lifetimes, and type-driven design
+    - Relevant to my broader interest in reliable firmware and systems programming
+- title: Linear Algebra Done Right
+  author: Sheldon Axler
+  area: Linear Algebra
+  status: ongoing
+  summary: A proof-oriented linear algebra text that emphasizes vector spaces, linear maps, eigenstructure, and abstraction before determinants.
+  takeaways:
+    - Aiming to complete the reading and exercises this summer
+    - Strengthens the proof-based side of linear algebra beyond computational methods
+    - Useful background for signal processing, control, machine learning, and mathematical maturity
