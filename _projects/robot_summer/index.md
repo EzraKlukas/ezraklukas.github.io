@@ -35,5 +35,3 @@ One of the important pieces of the robot was its startup calibration sequence. B
 </div>
 
 The full writeup will come later, so I do not want to over-explain the mechanism here without also giving the surrounding design context. The short version is that this is an example of the robot doing the kind of automatic setup that makes the rest of the autonomous behaviour less fragile: initialize, move through a known sequence, and only then trust the finite-state logic used during the competition run.
-
-![Side angle of the robot]({{ page.url | remove: 'index/' | append: 'side_angle.webp' | relative_url }})
