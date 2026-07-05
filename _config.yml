@@ -139,6 +139,9 @@ plugins:
 include:
   - _projects
 
+exclude:
+  - unofficial_transcript.pdf
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.

@@ -97,7 +97,7 @@ nav .right a:last-child
 nav .right a:last-child:hover,
 nav .right a span:last-child:hover,
 nav .mobile-nav a:last-child:hover,
-nav .mobile-nav a span:last-child:hover,{
+nav .mobile-nav a span:last-child:hover {
     color: var(--text-color);
     background-color: var(--light-background-color);
     border-radius: 10px;
@@ -292,7 +292,7 @@ nav .mobile-nav {
 .project-grid-section .project-link {
     text-decoration: none;
     color: inherit;
-    display: inline-block;
+    display: block;
 }
 
 .project-grid-section .grid-container .project-link .project-card {
@@ -313,7 +313,6 @@ nav .mobile-nav {
 
 .project-card img {
     width: 100%;
-    max-width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;
@@ -354,7 +353,7 @@ nav .mobile-nav {
 .project-card .project-description {
     display: -webkit-box;
     -webkit-line-clamp: 4; 
-    line-clamp: 4px;
+    line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -375,6 +374,124 @@ nav .mobile-nav {
 
 .project-card .read-more:hover {
     text-decoration: underline;
+}
+
+
+/* COURSES AND BOOKS */
+
+.notebook-section {
+    margin-bottom: 100px;
+}
+
+.section-heading {
+    margin-bottom: 18px;
+    padding: 0 10px;
+}
+
+.section-heading h2 {
+    font-size: 34px;
+}
+
+.section-kicker {
+    color: var(--link-color);
+    font-size: 13px;
+    letter-spacing: 0;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.course-area {
+    margin-bottom: 28px;
+}
+
+.course-area h3 {
+    border-left: 3px solid var(--link-color);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    padding-left: 10px;
+}
+
+.course-grid,
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.course-card,
+.book-card,
+.note-card,
+.debug-card,
+.math-card,
+.system-card {
+    background:
+        linear-gradient(90deg, rgba(74, 118, 238, 0.08) 1px, transparent 1px),
+        var(--background-color);
+    background-size: 24px 24px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    padding: 15px;
+}
+
+.course-card h4,
+.book-card h3 {
+    color: var(--text-color);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.course-title,
+.book-author {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.course-note,
+.book-card p {
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.tag {
+    background: var(--light-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    color: var(--link-color);
+    display: inline-flex;
+    font-size: 12px;
+    line-height: 1;
+    padding: 5px 8px;
+}
+
+.note-card,
+.debug-card,
+.math-card,
+.system-card {
+    margin: 1.25rem auto;
+    max-width: 900px;
+}
+
+.debug-card {
+    border-left: 4px solid #d97706;
+}
+
+.math-card {
+    border-left: 4px solid var(--highlight-color);
+}
+
+.system-card {
+    border-left: 4px solid #047857;
 }
 
 
@@ -633,15 +750,16 @@ footer p {
     border-radius: 10px;
 }
 
-.post-view .content img {
+.post-view .content img,
+.post-content img,
+.project-content img {
     display: block;
-    max-width: 100%;
-    width: auto;
+    max-width: min(100%, 900px);
     height: auto;
     max-height: 80vh;
     object-fit: contain;
-    margin: 1.25rem auto;
-    border-radius: 6px;
+    margin: 1.5rem auto;
+    border-radius: 8px;
 }
 
 .post-view .content .wide-img img,
@@ -754,7 +872,7 @@ footer p {
 
 .video-container {
     width: 100%;
-    max-width: 960px;
+    max-width: 900px;
     margin: 1.5rem auto;
 }
 

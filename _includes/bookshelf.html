@@ -1,0 +1,20 @@
+<section id="bookshelf" class="bookshelf-section notebook-section">
+    <div class="section-heading">
+        <p class="section-kicker">Bookshelf</p>
+        <h2>Books I've studied properly</h2>
+    </div>
+
+    <div class="book-grid">
+        {% for book in site.data.books %}
+            <article class="book-card">
+                <div class="card-meta">
+                    <span class="tag">{{ book.area }}</span>
+                    <span class="tag">{{ book.status }}</span>
+                </div>
+                <h3>{{ book.title }}</h3>
+                <p class="book-author">{{ book.author }}</p>
+                <p>{{ book.note }}</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/syntax.css">
 
     <script src="{{ '/assets/js/script.js' | relative_url }}"></script>
+    {% include mathjax.html %}
 
     
     <title>{{ site.title }}</title>
@@ -26,10 +27,7 @@
      {% include navbar.html%}
 
      <div class="page">{{content}}</div>
-
-     {% include mathjax.html %}
+     {% include footer.html %}
      
 </body>
-
-    {% include footer.html%}
 </html>

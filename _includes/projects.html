@@ -1,27 +1,25 @@
-<!-- SECTION 3: project -->
+<!-- SECTION 2: Projects -->
 <section id="projects" class="project-grid-section">
     <h2>Projects</h2>
 
     <div class="grid-container">
         {% for item in site.projects %}
-    <a href="{{ item.url }}" class="project-link">
-        <div class="project-card">
-            {% assign image_base_path = item.url | remove: 'index/' %}
-            {% assign image_name = item['main-image'] | remove_first: '/' %}
-            {% assign image_path = image_base_path | append: image_name | relative_url %}
-            <img src="{{ image_path }}" alt="{{ item.title }} image">
-            <h3 class="project-title">{{ item.title }}</h3>
-            <div class="project-skills">
-                {% for skill in item.skills %}
-                    <span class="skill">{{ skill }}</span>
-                {% endfor %}
-            </div>
-            <p class="project-description">{{ item.description }}</p>
-            <button class="read-more">Read more →</button>
-        </div>
-    </a>
-{% endfor %}
+            <a href="{{ item.url }}" class="project-link">
+                <div class="project-card">
+                    {% assign image_base_path = item.url | remove: 'index/' %}
+                    {% assign image_name = item['main-image'] | remove_first: '/' %}
+                    {% assign image_path = image_base_path | append: image_name | relative_url %}
+                    <img src="{{ image_path }}" alt="{{ item.title }} image">
+                    <h3 class="project-title">{{ item.title }}</h3>
+                    <div class="project-skills">
+                        {% for skill in item.skills %}
+                            <span class="skill">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                    <p class="project-description">{{ item.description }}</p>
+                    <button class="read-more">Read more →</button>
+                </div>
+            </a>
+        {% endfor %}
     </div>
-
-
- </section>
+</section>

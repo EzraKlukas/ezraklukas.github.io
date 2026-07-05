@@ -15,8 +15,6 @@ skills:
 main-image: competition_surface.png
 ---
 
----
-
 # Project Design
 
 ENPH 353 was structured around a simulated autonomous robotics competition. The robot had to drive around a Gazebo course, avoid obstacles and NPCs, obey the important traffic constraints, read clue boards placed around the course, and use those clues to solve a murder mystery. At a higher level, this split the project into two coupled but conceptually separate problems: driving reliably through the map, and reading signs accurately enough that the robot could make the correct final guess.

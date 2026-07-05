@@ -12,8 +12,6 @@ skills:
 main-image: main.jpg
 ---
 
----
-
 # Circuit Design
 At a higher level, the aim of the circuit is to convert the angular speed of a DC motor into a proportional analog voltage, against which a feedback loop corrects about an adjustable pre-set voltage, regulating the current flow through the DC motor.
 
