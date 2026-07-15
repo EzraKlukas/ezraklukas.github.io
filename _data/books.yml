@@ -79,3 +79,13 @@
     - Aiming to complete the reading and exercises this summer
     - Strengthens the proof-based side of linear algebra beyond computational methods
     - Useful background for signal processing, control, machine learning, and mathematical maturity
+- title: The Design of the UNIX Operating System
+  author: Maurice J. Bach
+  area: Operating Systems Architecture
+  status: ongoing
+  summary: A detailed study of the architecture and internal design of early UNIX systems. Although the book focuses on a historical implementation, many of its core ideas—process management, file systems, memory management, and layered abstraction—remain foundational to modern operating systems.  
+  takeaways:
+    - I aim to complete the book by the end of the summer.
+    - It builds a bottom-up understanding of UNIX architecture and provides a strong foundation for studying the Linux kernel in greater depth.
+    - It explains how operating systems manage hardware just above the assembly level and how carefully designed abstractions turn low-level mechanisms into usable system interfaces.
+    - The book also provides useful design principles for my long-term goal of understanding, and eventually building, my own computer system and operating system.
